@@ -15,5 +15,5 @@ Show a note by it's title
 List all notes
    - node app.js list
   
-Please follow these setup instructions -   
-* Please run 'npm install' before running the commands.
+
+Please run 'npm install' before running the commands.
