@@ -1,6 +1,9 @@
 const yargs = require("yargs");
 const fs = require("fs");
+const notes = require("./notes.js");
+const chalk = require("chalk");
 
+// Adding a command to add a new note
 yargs.command({
   command: "add",
   describe: "Add a new note",
@@ -17,37 +20,27 @@ yargs.command({
     },
   },
   handler: function (argsv) {
-    let note = {
-      title: argsv.title,
-      body: argsv.body,
-    };
-
-    const fileContentsBuffer = fs.readFileSync("notes.json");
-    const notesJson = fileContentsBuffer.toString();
-
-    if (!notesJson) {
-      fs.writeFileSync("notes.json", "[" + JSON.stringify(note) + "]");
-    } else {
-      if (notesJson[notesJson.length - 1] !== "\n")
-        fs.writeFileSync(
-          "notes.json",
-          notesJson.substr(0, notesJson.length - 1) +
-            "," +
-            JSON.stringify(note) +
-            "]"
-        );
-      else
-        fs.writeFileSync(
-          "notes.json",
-          notesJson.substr(0, notesJson.length - 2) +
-            "," +
-            JSON.stringify(note) +
-            "]"
-        );
-    }
+    notes.addNote(argsv.title, argsv.body);
   },
 });
 
+// Adding a command to delete a note
+yargs.command({
+  command: "delete",
+  describe: "Delete a note",
+  builder: {
+    title: {
+      describe: "Title of the note to be deleted",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler: function (argv) {
+    notes.deleteNote(argv.title);
+  },
+});
+
+// Adding a command to find a note by it's title
 yargs.command({
   command: "read",
   describe: "Read a note",
@@ -59,9 +52,46 @@ yargs.command({
     },
   },
   handler: function (argsv) {
-    let bufferedNotes = fs.readFileSync("notes.json");
-    const notes = JSON.parse(bufferedNotes.toString());
-    console.log(notes.find((note) => note.title === argsv.title).body);
+    const foundNote = notes.readNote(argsv.title);
+
+    foundNote !== undefined
+      ? console.log(
+          chalk.green(
+            "\n---------------------------------------------------------------------------------------------------------------\n\n"
+          ) +
+            chalk.italic.magenta(foundNote.body) +
+            chalk.green(
+              "\n\n---------------------------------------------------------------------------------------------------------------\n"
+            )
+        )
+      : console.log(chalk.red.inverse.bold("Note not found."));
+  },
+});
+
+// Adding a command to list all notes
+yargs.command({
+  command: "list",
+  describe: "Get a list of all notes",
+  handler: function () {
+    const allNotes = notes.listNotes();
+
+    console.log("\n");
+
+    if (allNotes.length > 0) {
+      for (let note of allNotes) {
+        console.log(
+          `\n${chalk.red.inverse("TITLE")} : ${chalk.yellow.inverse(
+            note.title
+          )}\n\n${chalk.red("BODY")} : ${chalk.magenta.italic(
+            note.body
+          )}\n${chalk.green(
+            "\n---------------------------------------------------------------------------------------------------------------"
+          )}`
+        );
+      }
+    } else {
+      console.log(chalk.red.bold.inverse("There are no notes yet!!!") + "\n");
+    }
   },
 });
 
