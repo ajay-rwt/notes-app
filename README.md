@@ -15,5 +15,6 @@ Show a note by it's title
 List all notes
    - node app.js list
   
+Please follow these setup instructions -   
 * Please run 'npm install' before running the commands.
 * notes.json can be deleted after you load the project.
