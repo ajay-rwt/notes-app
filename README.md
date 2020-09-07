@@ -17,4 +17,3 @@ List all notes
   
 Please follow these setup instructions -   
 * Please run 'npm install' before running the commands.
-* notes.json can be deleted after you load the project.
