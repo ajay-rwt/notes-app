@@ -3,6 +3,8 @@ A note taking app.
 
 Make/see/delete notes from CLI.
 
+Please make sure to run 'npm install' before running the first command.
+
 Adding a new note
    - node app.js add --title="TITLE OF THE NOTE" --body="CONTENTS OF THE NOTE"
   
@@ -14,6 +16,3 @@ Show a note by it's title
   
 List all notes
    - node app.js list
-  
-
-Please run 'npm install' before running the commands.
