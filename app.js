@@ -3,7 +3,7 @@ const fs = require("fs");
 const notes = require("./notes.js");
 const chalk = require("chalk");
 
-// Adding a command to add a new note
+// Adding a command to add a new note ksj
 yargs.command({
   command: "add",
   describe: "Add a new note",
