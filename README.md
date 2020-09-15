@@ -1,5 +1,5 @@
 # notes-app
-A note taking app.
+A note taking app THAT BRINGS COLOR TO YOUR LIFE (if your life is CONSOLE).
 
 Make/see/delete notes from CLI.
 
